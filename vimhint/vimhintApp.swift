@@ -34,6 +34,7 @@ struct vimhintApp: App {
 
 // MARK: - AppDelegate
 
+@MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var sidebarWindow: SidebarWindow?
