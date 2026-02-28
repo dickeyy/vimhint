@@ -1,0 +1,24 @@
+{
+  "source": "/Users/kyledickey/Documents/Code/vimhint/vimhint/HotkeyRecorder.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Stop",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 26
+        }
+      },
+      {
+        "comment": "",
+        "key": "Record",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 26
+        }
+      }
+    ]
+  },
+  "version": 1
+}

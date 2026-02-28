@@ -49,10 +49,10 @@ struct MenuBarView: View {
                 )
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.borderedProminent)
+            .controlSize(.regular)
             .padding(.horizontal, 14)
-            .padding(.vertical, 8)
-            .contentShape(Rectangle())
+            .padding(.vertical, 6)
 
             Divider()
                 .padding(.vertical, 4)
@@ -72,17 +72,15 @@ struct MenuBarView: View {
                         Button("Done") {
                             finishEditingHotkey()
                         }
-                        .font(.system(size: 10, weight: .regular, design: .default))
-                        .foregroundStyle(.tertiary)
-                        .buttonStyle(.plain)
+                        .buttonStyle(.bordered)
+                        .controlSize(.small)
                     }
                 } else {
                     Button(hotkeyText) {
                         beginEditingHotkey()
                     }
-                    .buttonStyle(.plain)
-                    .font(.system(size: 11, weight: .regular, design: .default))
-                    .foregroundStyle(.tertiary)
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
                 }
             }
             .padding(.horizontal, 14)
@@ -98,10 +96,10 @@ struct MenuBarView: View {
                 Label("Hide menu bar icon", systemImage: "eye.slash")
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.bordered)
+            .controlSize(.regular)
             .padding(.horizontal, 14)
-            .padding(.vertical, 8)
-            .contentShape(Rectangle())
+            .padding(.vertical, 6)
 
             Divider()
                 .padding(.vertical, 4)
@@ -113,10 +111,10 @@ struct MenuBarView: View {
                 Label("Quit vimhint", systemImage: "power")
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.bordered)
+            .controlSize(.regular)
             .padding(.horizontal, 14)
-            .padding(.vertical, 8)
-            .contentShape(Rectangle())
+            .padding(.vertical, 6)
         }
         .padding(.bottom, 10)
         .frame(width: 240)

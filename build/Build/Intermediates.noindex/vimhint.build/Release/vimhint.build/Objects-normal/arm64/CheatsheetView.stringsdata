@@ -1,0 +1,56 @@
+{
+  "source": "/Users/kyledickey/Documents/Code/vimhint/vimhint/CheatsheetView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Search",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 210
+        }
+      },
+      {
+        "comment": "",
+        "key": "vimhint",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 235
+        }
+      },
+      {
+        "comment": "",
+        "key": "No matches",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 253
+        }
+      },
+      {
+        "comment": "",
+        "key": "Set sidebar hotkey",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 275
+        }
+      },
+      {
+        "comment": "",
+        "key": "Done",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 284
+        }
+      },
+      {
+        "comment": "",
+        "key": "Show menu icon",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 300
+        }
+      }
+    ]
+  },
+  "version": 1
+}

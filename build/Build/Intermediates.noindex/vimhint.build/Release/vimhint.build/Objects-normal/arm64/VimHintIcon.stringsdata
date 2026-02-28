@@ -1,0 +1,16 @@
+{
+  "source": "/Users/kyledickey/Documents/Code/vimhint/vimhint/VimHintIcon.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "vimhint",
+        "location": {
+          "startingColumn": 29,
+          "startingLine": 16
+        }
+      }
+    ]
+  },
+  "version": 1
+}

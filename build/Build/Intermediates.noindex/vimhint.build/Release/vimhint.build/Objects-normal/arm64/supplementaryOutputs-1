@@ -1,0 +1,12 @@
+{
+  "/Users/kyledickey/Documents/Code/vimhint/vimhint/AppState.swift" : {
+    "abi-baseline-json" : "/Users/kyledickey/Documents/Code/vimhint/build/Build/Intermediates.noindex/vimhint.build/Release/vimhint.build/Objects-normal/arm64/vimhint.abi.json",
+    "const-values" : "/Users/kyledickey/Documents/Code/vimhint/build/Build/Intermediates.noindex/vimhint.build/Release/vimhint.build/Objects-normal/arm64/vimhint-primary.swiftconstvalues",
+    "dependencies" : "/Users/kyledickey/Documents/Code/vimhint/build/Build/Intermediates.noindex/vimhint.build/Release/vimhint.build/Objects-normal/arm64/vimhint-primary.d",
+    "diagnostics" : "/Users/kyledickey/Documents/Code/vimhint/build/Build/Intermediates.noindex/vimhint.build/Release/vimhint.build/Objects-normal/arm64/vimhint-primary.dia",
+    "objc-header" : "/Users/kyledickey/Documents/Code/vimhint/build/Build/Intermediates.noindex/vimhint.build/Release/vimhint.build/Objects-normal/arm64/vimhint-Swift.h",
+    "swiftdoc" : "/Users/kyledickey/Documents/Code/vimhint/build/Build/Intermediates.noindex/vimhint.build/Release/vimhint.build/Objects-normal/arm64/vimhint.swiftdoc",
+    "swiftmodule" : "/Users/kyledickey/Documents/Code/vimhint/build/Build/Intermediates.noindex/vimhint.build/Release/vimhint.build/Objects-normal/arm64/vimhint.swiftmodule",
+    "swiftsourceinfo" : "/Users/kyledickey/Documents/Code/vimhint/build/Build/Intermediates.noindex/vimhint.build/Release/vimhint.build/Objects-normal/arm64/vimhint.swiftsourceinfo"
+  }
+}
