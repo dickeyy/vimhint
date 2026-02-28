@@ -40,6 +40,7 @@ struct HotkeyRecorder: View {
 
     private func startRecording() {
         guard localMonitor == nil else { return }
+        HotkeyManager.shared.beginShortcutRecording()
         isRecording = true
 
         localMonitor = NSEvent.addLocalMonitorForEvents(matching: [.keyDown]) { event in
@@ -59,10 +60,16 @@ struct HotkeyRecorder: View {
     }
 
     private func stopRecording() {
+        let wasRecording = isRecording
+
         if let localMonitor {
             NSEvent.removeMonitor(localMonitor)
             self.localMonitor = nil
         }
         isRecording = false
+
+        if wasRecording {
+            HotkeyManager.shared.endShortcutRecording()
+        }
     }
 }

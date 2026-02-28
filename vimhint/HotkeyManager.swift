@@ -2,6 +2,11 @@ import AppKit
 import Carbon.HIToolbox
 
 final class HotkeyManager {
+    static let fallbackShortcut = Shortcut(
+        keyCode: UInt32(kVK_ANSI_V),
+        modifiers: UInt32(controlKey)
+    )
+
     struct Shortcut: Codable, Equatable {
         let keyCode: UInt32
         let modifiers: UInt32
@@ -179,6 +184,8 @@ final class HotkeyManager {
     private var eventHandlerRef: EventHandlerRef?
     private let storageKey = "vimhint.toggleSidebarShortcut"
     private let hotKeyID = EventHotKeyID(signature: OSType(0x56484B59), id: 1)
+    private var isRecordingShortcut = false
+    private var suppressTriggerUntil: CFAbsoluteTime = 0
 
     private init() {
         installEventHandlerIfNeeded()
@@ -188,6 +195,16 @@ final class HotkeyManager {
 
     func onTrigger(_ handler: @escaping () -> Void) {
         self.handler = handler
+    }
+
+    func beginShortcutRecording() {
+        isRecordingShortcut = true
+        suppressTriggerUntil = CFAbsoluteTimeGetCurrent() + 0.8
+    }
+
+    func endShortcutRecording() {
+        isRecordingShortcut = false
+        suppressTriggerUntil = CFAbsoluteTimeGetCurrent() + 0.5
     }
 
     private func installEventHandlerIfNeeded() {
@@ -260,6 +277,11 @@ final class HotkeyManager {
         let manager = Unmanaged<HotkeyManager>.fromOpaque(userData).takeUnretainedValue()
         guard incomingID.signature == manager.hotKeyID.signature, incomingID.id == manager.hotKeyID.id else {
             return OSStatus(eventNotHandledErr)
+        }
+
+        let now = CFAbsoluteTimeGetCurrent()
+        guard !manager.isRecordingShortcut, now >= manager.suppressTriggerUntil else {
+            return noErr
         }
 
         manager.handler?()

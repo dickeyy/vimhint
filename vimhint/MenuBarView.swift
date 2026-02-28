@@ -2,7 +2,6 @@ import SwiftUI
 
 struct MenuBarView: View {
     @EnvironmentObject private var appState: AppState
-    @Environment(\.openSettings) private var openSettings
     @State private var hotkeyText = "Not set"
 
     private func refreshHotkeyText() {
@@ -26,7 +25,7 @@ struct MenuBarView: View {
             Divider()
 
             Button("Set Hotkey...") {
-                openSettings()
+                appState.openHotkeySettings()
             }
 
             Button("Hide Menu Bar Icon") {
@@ -65,10 +64,21 @@ struct HotkeySettingsView: View {
             HotkeyRecorder(shortcut: $shortcut)
                 .frame(width: 300)
 
-            Button("Clear Shortcut") {
-                shortcut = nil
+            HStack(spacing: 10) {
+                Button("Use Default (Ctrl+V)") {
+                    shortcut = HotkeyManager.fallbackShortcut
+                }
+
+                Button("Clear Shortcut") {
+                    shortcut = nil
+                }
             }
-            .disabled(shortcut == nil)
+
+            if shortcut == nil {
+                Text("No shortcut set")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
         }
         .padding(20)
         .frame(minWidth: 360)

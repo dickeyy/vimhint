@@ -11,6 +11,9 @@ final class AppState: ObservableObject {
     /// Called by menu bar views to toggle the sidebar panel.
     var toggleSidebar: () -> Void = {}
 
+    /// Called by menu bar views to open the hotkey settings window.
+    var openHotkeySettings: () -> Void = {}
+
     /// Reflects whether the sidebar is currently visible.
     /// AppDelegate must update this whenever the window shows or hides.
     @Published var isSidebarVisible: Bool = false
