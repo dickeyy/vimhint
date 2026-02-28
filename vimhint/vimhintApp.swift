@@ -23,11 +23,10 @@ struct vimhintApp: App {
         } label: {
             VimHintIcon()
         }
-        .menuBarExtraStyle(.window)
+        .menuBarExtraStyle(.menu)
 
-        // Required to satisfy SwiftUI's App protocol on macOS.
         Settings {
-            EmptyView()
+            HotkeySettingsView()
         }
     }
 }
@@ -75,7 +74,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            self?.sidebarWindow?.reposition()
+            Task { @MainActor [weak self] in
+                self?.sidebarWindow?.reposition()
+            }
         }
     }
 }
