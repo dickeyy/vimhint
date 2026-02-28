@@ -1,0 +1,68 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build release app
+        run: |
+          xcodebuild \
+            -project "vimhint.xcodeproj" \
+            -scheme "vimhint" \
+            -configuration Release \
+            -derivedDataPath "build" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            build
+
+      - name: Resolve release metadata
+        id: meta
+        run: |
+          TAG_NAME="${GITHUB_REF_NAME}"
+          VERSION="${TAG_NAME#v}"
+          APP_PATH="build/Build/Products/Release/vimhint.app"
+          DMG_NAME="vimhint-${VERSION}.dmg"
+          DMG_PATH="dist/${DMG_NAME}"
+
+          echo "tag_name=${TAG_NAME}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "app_path=${APP_PATH}" >> "$GITHUB_OUTPUT"
+          echo "dmg_name=${DMG_NAME}" >> "$GITHUB_OUTPUT"
+          echo "dmg_path=${DMG_PATH}" >> "$GITHUB_OUTPUT"
+
+      - name: Verify app exists
+        run: |
+          test -d "${{ steps.meta.outputs.app_path }}"
+
+      - name: Package DMG
+        run: |
+          ./scripts/create-dmg.sh \
+            "${{ steps.meta.outputs.app_path }}" \
+            "${{ steps.meta.outputs.dmg_path }}" \
+            "vimhint"
+
+      - name: Generate checksum
+        run: |
+          shasum -a 256 "${{ steps.meta.outputs.dmg_path }}" > "${{ steps.meta.outputs.dmg_path }}.sha256"
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag_name }}
+          name: vimhint ${{ steps.meta.outputs.version }}
+          generate_release_notes: true
+          files: |
+            ${{ steps.meta.outputs.dmg_path }}
+            ${{ steps.meta.outputs.dmg_path }}.sha256
