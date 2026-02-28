@@ -3,13 +3,15 @@ import SwiftUI
 
 // MARK: - SidebarWindow
 
-/// A non-activating, floating NSPanel pinned to the right edge of the screen.
-/// Slides in/out with animation and never steals keyboard focus.
+/// A non-activating, right-side panel with a floating card treatment.
+/// Slides in/out with animation and stays lightweight while reading.
 final class SidebarWindow: NSPanel {
 
     // MARK: Constants
 
-    private static let panelWidth: CGFloat = 320
+    private static let panelWidth: CGFloat = 360
+    private static let minHeight: CGFloat = 620
+    private static let edgeInset: CGFloat = 8
     private static let animationDuration: TimeInterval = 0.28
 
     // MARK: State
@@ -62,23 +64,26 @@ final class SidebarWindow: NSPanel {
     private func buildContentStack() {
         // 1. Visual effect view provides the frosted-glass background
         let visualEffect = NSVisualEffectView(frame: .zero)
-        visualEffect.material = .sidebar
+        visualEffect.material = .hudWindow
         visualEffect.blendingMode = .behindWindow
         visualEffect.state = .active
         visualEffect.wantsLayer = true
-        visualEffect.layer?.cornerRadius = 0   // flush with screen edge
+        visualEffect.layer?.cornerRadius = 16
+        visualEffect.layer?.masksToBounds = true
+        visualEffect.layer?.borderWidth = 1
+        visualEffect.layer?.borderColor = NSColor.separatorColor.withAlphaComponent(0.28).cgColor
 
         // 2. SwiftUI hosting view sits on top
         let hostingView = NSHostingView(rootView: CheatsheetView().environmentObject(AppState.shared))
         hostingView.translatesAutoresizingMaskIntoConstraints = false
 
-        // 3. Stack them: visual effect is the root, hosting view fills it
+        // 3. Stack them: visual effect is the root, hosting view fills it with subtle insets
         visualEffect.addSubview(hostingView)
         NSLayoutConstraint.activate([
-            hostingView.topAnchor.constraint(equalTo: visualEffect.topAnchor),
-            hostingView.bottomAnchor.constraint(equalTo: visualEffect.bottomAnchor),
-            hostingView.leadingAnchor.constraint(equalTo: visualEffect.leadingAnchor),
-            hostingView.trailingAnchor.constraint(equalTo: visualEffect.trailingAnchor),
+            hostingView.topAnchor.constraint(equalTo: visualEffect.topAnchor, constant: 6),
+            hostingView.bottomAnchor.constraint(equalTo: visualEffect.bottomAnchor, constant: -6),
+            hostingView.leadingAnchor.constraint(equalTo: visualEffect.leadingAnchor, constant: 6),
+            hostingView.trailingAnchor.constraint(equalTo: visualEffect.trailingAnchor, constant: -6),
         ])
 
         contentView = visualEffect
@@ -89,22 +94,26 @@ final class SidebarWindow: NSPanel {
 
     // MARK: Screen Geometry
 
-    /// The on-screen frame: right edge of the visible area, full height.
+    /// The on-screen frame: right edge with a near-full-height card.
     private static func shownFrame(for screen: NSScreen? = .main) -> NSRect {
         guard let screen = screen else { return .zero }
-        let visible = screen.visibleFrame  // excludes menu bar and Dock
+        let visible = screen.visibleFrame
+
+        let height = max(minHeight, visible.height - (edgeInset * 2))
+        let y = visible.minY + edgeInset
+
         return NSRect(
-            x: visible.maxX - panelWidth,
-            y: visible.minY,
+            x: visible.maxX - panelWidth - edgeInset,
+            y: y,
             width: panelWidth,
-            height: visible.height
+            height: height
         )
     }
 
     /// The off-screen frame: shifted one full panel-width to the right.
     private static func hiddenFrame(for screen: NSScreen? = .main) -> NSRect {
         var f = shownFrame(for: screen)
-        f.origin.x += panelWidth
+        f.origin.x += panelWidth + edgeInset + 12
         return f
     }
 

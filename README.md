@@ -1,47 +1,44 @@
 # vimhint
 
-A lightweight macOS menu bar app that shows a Vim cheatsheet in a right-side floating panel.
+`vimhint` is a tiny macOS menu bar app that gives you a fast, searchable Vim cheatsheet in a right-edge sidebar panel.
 
-## Install (from GitHub Releases)
+Use it while coding without leaving your editor.
 
-1. Download the latest `vimhint-<version>.dmg` from the Releases page.
+## Features
+
+- Global hotkey to show/hide the sidebar
+- Searchable Vim command cheatsheet
+- Non-intrusive right-edge sidebar card
+- Menu bar app (no Dock icon clutter)
+
+## Install
+
+1. Download the latest `.dmg` from [Releases](../../releases).
 2. Open the DMG and drag `vimhint.app` into `Applications`.
 3. Launch `vimhint.app`.
 
-Because releases are currently unsigned/not notarized, macOS Gatekeeper may block first launch.
+## macOS security note
 
-If that happens, either:
-
-- Right-click `vimhint.app` in `Applications` and choose `Open`.
-- Or remove quarantine from Terminal:
+If macOS blocks the app on first launch, remove quarantine:
 
 ```bash
 xattr -dr com.apple.quarantine /Applications/vimhint.app
 ```
 
+Or right-click `vimhint.app` in `Applications` and choose `Open`.
+
+## First launch
+
+1. Click the menu bar icon.
+2. Set your hotkey.
+3. Press the hotkey to toggle the sidebar.
+
+You can hide the menu bar icon for the current session and bring it back from the sidebar.
+
 ## Local development
 
-Open `vimhint.xcodeproj` in Xcode and run the `vimhint` scheme on `My Mac`.
+Open `vimhint.xcodeproj` in Xcode, choose the `vimhint` scheme, and run on `My Mac`.
 
-## Release process (GitHub Actions)
+## License
 
-This repo includes `.github/workflows/release.yml`.
-
-Pushing a tag that starts with `v` triggers a release build on macOS and uploads:
-
-- `vimhint-<version>.dmg`
-- `vimhint-<version>.dmg.sha256`
-
-### Create a release
-
-```bash
-git tag v0.1.0
-git push origin v0.1.0
-```
-
-After the workflow completes, the release appears in GitHub Releases.
-
-## Notes
-
-- Current release builds are unsigned (`CODE_SIGNING_ALLOWED=NO`) for easy GitHub distribution.
-- Later, you can add Developer ID signing + notarization in the same workflow for smoother installs.
+MIT License. See [LICENSE](LICENSE) for details.
