@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		D0B8B6B82F52D6550008BCB4 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = D0B8B6B72F52D6550008BCB4 /* KeyboardShortcuts */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		D0B8B6932F52D1B70008BCB4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -56,7 +52,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0B8B6B82F52D6550008BCB4 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,7 +120,6 @@
 			);
 			name = vimhint;
 			packageProductDependencies = (
-				D0B8B6B72F52D6550008BCB4 /* KeyboardShortcuts */,
 			);
 			productName = vimhint;
 			productReference = D0B8B6852F52D1B50008BCB4 /* vimhint.app */;
@@ -210,7 +204,6 @@
 			mainGroup = D0B8B67C2F52D1B50008BCB4;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				D0B8B6AF2F52D2B20008BCB4 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D0B8B6862F52D1B50008BCB4 /* Products */;
@@ -593,24 +586,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		D0B8B6AF2F52D2B20008BCB4 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.4.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		D0B8B6B72F52D6550008BCB4 /* KeyboardShortcuts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D0B8B6AF2F52D2B20008BCB4 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
-			productName = KeyboardShortcuts;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D0B8B67D2F52D1B50008BCB4 /* Project object */;
 }

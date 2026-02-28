@@ -1,27 +1,23 @@
 import SwiftUI
-import KeyboardShortcuts
 
 struct MenuBarView: View {
     @EnvironmentObject private var appState: AppState
     @State private var isEditingHotkey = false
-    @State private var previousShortcut: KeyboardShortcuts.Shortcut?
+    @State private var draftShortcut: HotkeyManager.Shortcut?
+    @State private var hotkeyText = "Set keybind"
 
-    private var hotkeyText: String {
-        if let shortcut = KeyboardShortcuts.getShortcut(for: .toggleSidebar) {
-            return shortcut.description
-        }
-        return "Set keybind"
+    private func refreshHotkeyText() {
+        hotkeyText = HotkeyManager.shared.shortcut?.displayString ?? "Set keybind"
     }
 
     private func beginEditingHotkey() {
-        previousShortcut = KeyboardShortcuts.getShortcut(for: .toggleSidebar)
+        draftShortcut = HotkeyManager.shared.shortcut
         isEditingHotkey = true
     }
 
     private func finishEditingHotkey() {
-        if KeyboardShortcuts.getShortcut(for: .toggleSidebar) == nil,
-           let previousShortcut {
-            KeyboardShortcuts.setShortcut(previousShortcut, for: .toggleSidebar)
+        if HotkeyManager.shared.shortcut != draftShortcut {
+            HotkeyManager.shared.shortcut = draftShortcut
         }
         isEditingHotkey = false
     }
@@ -70,7 +66,9 @@ struct MenuBarView: View {
 
                 if isEditingHotkey {
                     HStack(spacing: 6) {
-                        KeyboardShortcuts.Recorder("", name: .toggleSidebar)
+                        HotkeyRecorder(shortcut: $draftShortcut)
+                            .frame(width: 150)
+
                         Button("Done") {
                             finishEditingHotkey()
                         }
@@ -122,6 +120,12 @@ struct MenuBarView: View {
         }
         .padding(.bottom, 10)
         .frame(width: 240)
+        .onAppear {
+            refreshHotkeyText()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: HotkeyManager.shortcutDidChangeNotification)) { _ in
+            refreshHotkeyText()
+        }
         .onDisappear {
             if isEditingHotkey {
                 finishEditingHotkey()

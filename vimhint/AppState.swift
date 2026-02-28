@@ -3,6 +3,7 @@ import Combine
 
 /// Shared observable state that bridges AppDelegate (AppKit) to SwiftUI views.
 /// AppDelegate owns the SidebarWindow and populates the toggle closure on launch.
+@MainActor
 final class AppState: ObservableObject {
 
     static let shared = AppState()
@@ -18,15 +19,13 @@ final class AppState: ObservableObject {
     @Published var showMenuBarIcon: Bool = true
 
     func setMenuBarIconVisible(_ isVisible: Bool) {
-        DispatchQueue.main.async { [weak self] in
-            self?.showMenuBarIcon = isVisible
-        }
+        guard showMenuBarIcon != isVisible else { return }
+        showMenuBarIcon = isVisible
     }
 
     func setSidebarVisible(_ isVisible: Bool) {
-        DispatchQueue.main.async { [weak self] in
-            self?.isSidebarVisible = isVisible
-        }
+        guard isSidebarVisible != isVisible else { return }
+        isSidebarVisible = isVisible
     }
 
     private init() {}

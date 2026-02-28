@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import KeyboardShortcuts
 
 @main
 struct vimhintApp: App {
@@ -59,10 +58,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func registerHotkeys() {
-        KeyboardShortcuts.onKeyUp(for: .toggleSidebar) { [weak self] in
-            guard let self, let window = self.sidebarWindow else { return }
-            window.toggle()
-            AppState.shared.setSidebarVisible(window.isShown)
+        HotkeyManager.shared.onTrigger { [weak self] in
+            DispatchQueue.main.async {
+                guard let self, let window = self.sidebarWindow else { return }
+                window.toggle()
+                AppState.shared.setSidebarVisible(window.isShown)
+            }
         }
     }
 

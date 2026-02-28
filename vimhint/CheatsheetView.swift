@@ -1,5 +1,4 @@
 import SwiftUI
-import KeyboardShortcuts
 
 // MARK: - Data
 
@@ -158,24 +157,22 @@ struct CheatsheetView: View {
     @EnvironmentObject private var appState: AppState
     @State private var query = ""
     @State private var isEditingHotkey = false
-    @State private var previousShortcut: KeyboardShortcuts.Shortcut?
+    @State private var draftShortcut: HotkeyManager.Shortcut?
+    @State private var hotkeyText = "Set keybind"
 
-    private var hotkeyText: String {
-        if let shortcut = KeyboardShortcuts.getShortcut(for: .toggleSidebar) {
-            return shortcut.description
-        }
-        return "Set keybind"
+    private func refreshHotkeyText() {
+        hotkeyText = HotkeyManager.shared.shortcut?.displayString ?? "Set keybind"
     }
 
     private func beginEditingHotkey() {
-        previousShortcut = KeyboardShortcuts.getShortcut(for: .toggleSidebar)
+        draftShortcut = HotkeyManager.shared.shortcut
         isEditingHotkey = true
     }
 
     private func finishEditingHotkey() {
-        if KeyboardShortcuts.getShortcut(for: .toggleSidebar) == nil,
-           let previousShortcut {
-            KeyboardShortcuts.setShortcut(previousShortcut, for: .toggleSidebar)
+        if HotkeyManager.shared.shortcut != draftShortcut {
+            HotkeyManager.shared.shortcut = draftShortcut
+            refreshHotkeyText()
         }
         isEditingHotkey = false
     }
@@ -247,7 +244,7 @@ struct CheatsheetView: View {
             .padding(.bottom, 6)
 
             ScrollView(.vertical, showsIndicators: true) {
-                VStack(alignment: .leading, spacing: 20) {
+                LazyVStack(alignment: .leading, spacing: 20) {
                     ForEach(filteredSections, id: \.title) { section in
                         SectionBlock(title: section.title, hints: section.hints)
                     }
@@ -279,8 +276,8 @@ struct CheatsheetView: View {
                                 .font(.system(size: 11, weight: .medium))
                                 .foregroundStyle(.secondary)
 
-                            KeyboardShortcuts.Recorder("", name: .toggleSidebar)
-                                .frame(width: 128, alignment: .leading)
+                            HotkeyRecorder(shortcut: $draftShortcut)
+                                .frame(width: 160, alignment: .leading)
 
                             HStack {
                                 Spacer()
@@ -311,6 +308,12 @@ struct CheatsheetView: View {
             }
         }
         .background(.clear)
+        .onAppear {
+            refreshHotkeyText()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: HotkeyManager.shortcutDidChangeNotification)) { _ in
+            refreshHotkeyText()
+        }
         .onDisappear {
             if isEditingHotkey {
                 finishEditingHotkey()

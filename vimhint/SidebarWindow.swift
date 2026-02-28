@@ -17,6 +17,7 @@ final class SidebarWindow: NSPanel {
     // MARK: State
 
     private(set) var isShown = false
+    private weak var visualEffectView: NSVisualEffectView?
 
     // MARK: Init
 
@@ -65,8 +66,8 @@ final class SidebarWindow: NSPanel {
         // 1. Visual effect view provides the frosted-glass background
         let visualEffect = NSVisualEffectView(frame: .zero)
         visualEffect.material = .hudWindow
-        visualEffect.blendingMode = .behindWindow
-        visualEffect.state = .active
+        visualEffect.blendingMode = .withinWindow
+        visualEffect.state = .inactive
         visualEffect.wantsLayer = true
         visualEffect.layer?.cornerRadius = 16
         visualEffect.layer?.masksToBounds = true
@@ -87,6 +88,7 @@ final class SidebarWindow: NSPanel {
         ])
 
         contentView = visualEffect
+        visualEffectView = visualEffect
 
         // Position after the content view is set so screen geometry is ready
         reposition()
@@ -134,6 +136,7 @@ final class SidebarWindow: NSPanel {
     func show() {
         guard !isShown else { return }
         isShown = true
+        visualEffectView?.state = .active
 
         // Snap to the hidden position first (in case screen changed)
         setFrame(SidebarWindow.hiddenFrame(), display: false)
@@ -157,6 +160,7 @@ final class SidebarWindow: NSPanel {
             ctx.allowsImplicitAnimation = true
             animator().setFrame(SidebarWindow.hiddenFrame(), display: true)
         }, completionHandler: { [weak self] in
+            self?.visualEffectView?.state = .inactive
             self?.orderOut(nil)
         })
     }
