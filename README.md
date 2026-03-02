@@ -4,6 +4,8 @@
 
 Use it while coding without leaving your editor.
 
+<img width="1234" height="998" alt="CleanShot 2026-03-02 at 15 58 20@2x" src="https://github.com/user-attachments/assets/86f7c954-b907-4321-8245-d4d0b8dd0c24" />
+
 ## Features
 
 - Global hotkey to show/hide the sidebar
