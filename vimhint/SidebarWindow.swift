@@ -121,9 +121,10 @@ final class SidebarWindow: NSPanel {
 
     /// Call when the screen configuration changes (e.g. display arrangement, resolution).
     func reposition() {
+        let targetScreen = screen ?? NSScreen.main ?? NSScreen.screens.first
         let target = isShown
-            ? SidebarWindow.shownFrame()
-            : SidebarWindow.hiddenFrame()
+            ? SidebarWindow.shownFrame(for: targetScreen)
+            : SidebarWindow.hiddenFrame(for: targetScreen)
         setFrame(target, display: false)
     }
 
@@ -137,28 +138,30 @@ final class SidebarWindow: NSPanel {
         guard !isShown else { return }
         isShown = true
         visualEffectView?.state = .active
+        let targetScreen = NSScreen.main ?? NSScreen.screens.first
 
         // Snap to the hidden position first (in case screen changed)
-        setFrame(SidebarWindow.hiddenFrame(), display: false)
-        orderFront(nil)
+        setFrame(SidebarWindow.hiddenFrame(for: targetScreen), display: false)
+        orderFrontRegardless()
 
         NSAnimationContext.runAnimationGroup { ctx in
             ctx.duration = Self.animationDuration
             ctx.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
             ctx.allowsImplicitAnimation = true
-            animator().setFrame(SidebarWindow.shownFrame(), display: true)
+            animator().setFrame(SidebarWindow.shownFrame(for: targetScreen), display: true)
         }
     }
 
     func hide() {
         guard isShown else { return }
         isShown = false
+        let targetScreen = screen ?? NSScreen.main ?? NSScreen.screens.first
 
         NSAnimationContext.runAnimationGroup({ ctx in
             ctx.duration = Self.animationDuration
             ctx.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
             ctx.allowsImplicitAnimation = true
-            animator().setFrame(SidebarWindow.hiddenFrame(), display: true)
+            animator().setFrame(SidebarWindow.hiddenFrame(for: targetScreen), display: true)
         }, completionHandler: { [weak self] in
             self?.visualEffectView?.state = .inactive
             self?.orderOut(nil)
