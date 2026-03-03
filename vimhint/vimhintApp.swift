@@ -21,9 +21,7 @@ struct vimhintApp: App {
             MenuBarView()
                 .environmentObject(appState)
         } label: {
-            Image(systemName: "chevron.left.forwardslash.chevron.right")
-                .font(.system(size: 13, weight: .semibold))
-                .accessibilityLabel("vimhint")
+            VimHintIcon()
         }
         .menuBarExtraStyle(.menu)
 

@@ -1,19 +1,15 @@
 import SwiftUI
 
-/// Minimal template icon for the menu bar and popover header.
-/// Visual language: vim-style chevrons with a cursor bar in the middle.
+/// Menu bar icon matching the app icon's cursive "vh" lettering.
 struct VimHintIcon: View {
     var body: some View {
-        HStack(spacing: 2) {
-            Image(systemName: "chevron.left")
-            Rectangle()
-                .frame(width: 1.2, height: 8)
-            Image(systemName: "chevron.right")
-        }
-        .font(.system(size: 7.5, weight: .semibold))
-        .frame(width: 14, height: 14)
-        .foregroundStyle(.primary)
-        .accessibilityLabel("vimhint")
+        Text("vh")
+            .font(.custom("Snell Roundhand", size: 13))
+            .fontWeight(.bold)
+            .baselineOffset(-1)
+            .frame(width: 18, height: 18)
+            .foregroundStyle(.primary)
+            .accessibilityLabel("vimhint")
     }
 }
 

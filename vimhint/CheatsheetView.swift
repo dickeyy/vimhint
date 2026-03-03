@@ -229,10 +229,12 @@ struct CheatsheetView: View {
 
                 Spacer(minLength: 0)
 
-                Text("vimhint")
-                    .font(.system(size: 9, weight: .medium, design: .monospaced))
-                    .tracking(0.4)
-                    .foregroundStyle(.tertiary)
+                HStack(spacing: 4) {
+                    Text("vimhint")
+                        .font(.system(size: 9, weight: .medium, design: .monospaced))
+                        .tracking(0.4)
+                        .foregroundStyle(.tertiary)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 12)
