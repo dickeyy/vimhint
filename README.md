@@ -21,6 +21,8 @@ Use it while coding without leaving your editor.
 
 ## macOS security note
 
+I don't have an Apple developer license, so Apple will likely block the app at first.
+
 If macOS blocks the app on first launch, remove quarantine:
 
 ```bash
